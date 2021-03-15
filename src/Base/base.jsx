@@ -1,29 +1,37 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import AppBar from '@material-ui/core/AppBar';
-import {Paper} from '@material-ui/core'
+import { Paper } from '@material-ui/core'
 import CssBaseline from '@material-ui/core/CssBaseline';
 import Divider from '@material-ui/core/Divider';
 import Drawer from '@material-ui/core/Drawer';
 import Hidden from '@material-ui/core/Hidden';
 import IconButton from '@material-ui/core/IconButton';
-import InboxIcon from '@material-ui/icons/MoveToInbox';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
-import MailIcon from '@material-ui/icons/Mail';
 import MenuIcon from '@material-ui/icons/Menu';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
-import Content from './content'
+import Box from '@material-ui/core/Box';
+import {
+  SpeedOutlined,
+  AccountCircle,
+} from '@material-ui/icons'
+import { Link } from 'react-router-dom'
+// import UserTable from '../components/User/userTable'
+import Routing from '../routers/routing';
+import Grid from '@material-ui/core/Grid';
+import Footer from '../components/footer'
 
 const drawerWidth = 240;
 
 const useStyles = makeStyles((theme) => ({
   root: {
     display: 'flex',
+    backgroundColor: '#b1b3b1'
   },
   drawer: {
     [theme.breakpoints.up('sm')]: {
@@ -34,7 +42,7 @@ const useStyles = makeStyles((theme) => ({
   appBar: {
     [theme.breakpoints.up('sm')]: {
       width: `calc(100% - ${drawerWidth}px)`,
-      marginLeft: drawerWidth,
+
     },
   },
   menuButton: {
@@ -47,8 +55,8 @@ const useStyles = makeStyles((theme) => ({
   toolbar: theme.mixins.toolbar,
   drawerPaper: {
     width: drawerWidth,
-    backgroundColor:"#3f51b5",
-    color:'white'
+    backgroundColor: "#3f51b5",
+    color: 'white'
   },
   content: {
     flexGrow: 1,
@@ -56,7 +64,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function ResponsiveDrawer(props) {
+function SideBar(props) {
   const { window } = props;
   const classes = useStyles();
   const theme = useTheme();
@@ -69,20 +77,23 @@ function ResponsiveDrawer(props) {
   const drawer = (
     <div>
       <div className={classes.toolbar} />
-
-      <List>
-        <ListItem button>
-            <ListItemIcon><InboxIcon /></ListItemIcon>
-            <ListItemText primary='user' />
+      <Link to='/dashboard'>
+        <List>
+          <ListItem button>
+            <ListItemIcon><SpeedOutlined style={{ color: 'white' }} /></ListItemIcon>
+            <ListItemText primary='Dashboard' />
           </ListItem>
-      </List>
+        </List>
+      </Link>
       <Divider />
-      <List>
-        <ListItem button>
-            <ListItemIcon><InboxIcon /></ListItemIcon>
-            <ListItemText primary='user' />
+      <Link to='/user'>
+        <List>
+          <ListItem button>
+            <ListItemIcon><AccountCircle style={{ color: 'white' }} /></ListItemIcon>
+            <ListItemText primary='User' />
           </ListItem>
-      </List>
+        </List>
+      </Link>
     </div>
   );
 
@@ -103,7 +114,7 @@ function ResponsiveDrawer(props) {
             <MenuIcon />
           </IconButton>
           <Typography variant="h6" noWrap>
-            Simple But Faster
+            Telecard Limited
           </Typography>
         </Toolbar>
       </AppBar>
@@ -140,13 +151,22 @@ function ResponsiveDrawer(props) {
       </nav>
       <main className={classes.content}>
         <div className={classes.toolbar} />
-        <Content/>
+        <Grid container spacing={3}>
+          <Grid item xs={12}>
+            <Paper variant="outlined" className={classes.paper}>
+              <Routing />
+            </Paper>
+          </Grid>
+        </Grid>
+        <Box mt={2} width='100%' height='50px' padding='15px' bgcolor='#3f51b5'>
+          <Footer />
+        </Box>
       </main>
     </div>
   );
 }
 
-ResponsiveDrawer.propTypes = {
+SideBar.propTypes = {
   /**
    * Injected by the documentation to work in an iframe.
    * You won't need it on your project.
@@ -154,4 +174,4 @@ ResponsiveDrawer.propTypes = {
   window: PropTypes.func,
 };
 
-export default ResponsiveDrawer;
+export default SideBar;
